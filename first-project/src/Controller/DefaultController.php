@@ -1,5 +1,7 @@
 <?php
 
+// bin/console make:controller DefaultController
+
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +28,7 @@ class DefaultController extends AbstractController
         return $this->redirectToRoute('default2');
     }
 
-        /**
+    /**
      * @Route("/default2", name="default2")
      */
     public function index2(): Response
