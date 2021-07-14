@@ -12,16 +12,17 @@ use App\Services\GiftsService;
 
 class DefaultController extends AbstractController
 {
-    public function __construct(GiftsService $gifts)
-    {
-        $gifts->gifts = ['a','b','c','d','e'];
-    }
+    // OVERRIDE SERVICE ARRAY
+    // public function __construct(GiftsService $gifts)
+    // {
+    //     $gifts->gifts = ['a','b','c','d','e'];
+    // }
 
     /**
      * @Route("/", name="default")
      */
     public function index(GiftsService $gifts): Response
-    {             
+    {                   
         // $users = ['Carlos','Fede','Pia','Iván','Nacho'];
                 
         // $entityManager = $this->getDoctrine()->getManager();
