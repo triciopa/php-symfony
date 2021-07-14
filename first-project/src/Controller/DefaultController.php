@@ -8,13 +8,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
+use App\Services\GiftsService;
 
 class DefaultController extends AbstractController
 {
+    public function __construct(GiftsService $gifts)
+    {
+        $gifts->gifts = ['a','b','c','d','e'];
+    }
+
     /**
      * @Route("/", name="default")
      */
-    public function index(): Response
+    public function index(GiftsService $gifts): Response
     {             
         // $users = ['Carlos','Fede','Pia','Iván','Nacho'];
                 
@@ -43,15 +49,11 @@ class DefaultController extends AbstractController
         // bin/console doctrine:migrations:migrate
 
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
-        $gifts = ['flowers','car','piano','money','bricks'];
-        shuffle($gifts);
-
-
 
         return $this->render('default/index.html.twig', [
             'controller_name' => 'Test Page',
             'users' => $users,
-            'random_gift' => $gifts,
+            'random_gift' => $gifts->gifts,
         ]);
     }
 
