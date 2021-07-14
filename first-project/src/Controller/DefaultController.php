@@ -15,7 +15,7 @@ class DefaultController extends AbstractController
      * @Route("/", name="default")
      */
     public function index(): Response
-    {
+    {             
         // $users = ['Carlos','Fede','Pia','Iván','Nacho'];
                 
         // $entityManager = $this->getDoctrine()->getManager();
@@ -43,10 +43,15 @@ class DefaultController extends AbstractController
         // bin/console doctrine:migrations:migrate
 
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+        $gifts = ['flowers','car','piano','money','bricks'];
+        shuffle($gifts);
+
+
 
         return $this->render('default/index.html.twig', [
             'controller_name' => 'Test Page',
             'users' => $users,
+            'random_gift' => $gifts,
         ]);
     }
 

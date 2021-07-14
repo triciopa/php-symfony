@@ -22,7 +22,7 @@
     <ul>
         {% for user in users %}
             {# <li>{{ user }}</li> #}
-            <li>{{ user.name }}</li> {# DB object.property #}
+            <li>{{ user.name }} - you won {{random_gift[loop.index0]}}</li> {# DB object.property #}
         {% endfor %}
     </ul>
 </div>
@@ -31,7 +31,7 @@
 {% block javascripts %}
 
 <script>
-    alert('This is a block');
+    alert('This is a javascript alert block');
 </script>
 
 {% endblock %}
