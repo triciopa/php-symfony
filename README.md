@@ -26,6 +26,7 @@ $ php -S 127.0.0.1:8000 -t [folder]
 $ composer require maker
 $ composer require doctrine
 $ composer require orm
+$ composer require logger
 ```
 
 ### DB - SQLite
@@ -43,4 +44,10 @@ Then migrate:
 ```s
 $ bin/console make:migration
 $ bin/console doctrine:migrations:migrate
+```
+
+### Services
+
+```s
+$ bin/console debug:container
 ```
