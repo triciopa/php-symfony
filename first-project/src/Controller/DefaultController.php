@@ -7,15 +7,43 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\User;
 
 class DefaultController extends AbstractController
 {
     /**
-     * @Route("/default", name="default")
+     * @Route("/", name="default")
      */
     public function index(): Response
     {
-        $users = ['Carlos','Fede','Pia','Iván','Nacho'];
+        // $users = ['Carlos','Fede','Pia','Iván','Nacho'];
+                
+        // $entityManager = $this->getDoctrine()->getManager();
+
+        // $user = new User;
+        // $user->setName('Carlos');
+        // $user2 = new User;
+        // $user2->setName('Fede');
+        // $user3 = new User;
+        // $user3->setName('Pia');
+        // $user4 = new User;
+        // $user4->setName('Iván');
+        // $user5 = new User;
+        // $user5->setName('Nacho');
+        
+        // $entityManager->persist($user);
+        // $entityManager->persist($user2);
+        // $entityManager->persist($user3);
+        // $entityManager->persist($user4);
+        // $entityManager->persist($user5);
+        
+        // $entityManager->flush();
+
+        // bin/console make:migration
+        // bin/console doctrine:migrations:migrate
+
+        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+
         return $this->render('default/index.html.twig', [
             'controller_name' => 'Test Page',
             'users' => $users,
