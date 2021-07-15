@@ -110,27 +110,6 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/generate-url/{param?}", name="generate_url")
-     */
-    public function generate_url()
-    {
-        exit($this->generateUrl(
-            'generate_url',
-            array('param' => 10),
-            UrlGeneratorInterface::ABSOLUTE_URL
-        ));
-    }
-
-    /**
-     * @Route("/download")
-     */
-    public function download()
-    {
-        $path = $this->getParameter('download_directory');
-        return $this->file($path . 'file.pdf');
-    }
-
     // ADVANCED ROUTES
     /** 
      * @Route ("/blog/{page?}", name="blog_list", requirements={"page"="\d+"})
@@ -167,6 +146,39 @@ class DefaultController extends AbstractController
     public function index4(): Response
     {
         return new Response('Translated routes');
+    }
+    /**
+     * @Route("/generate-url/{param?}", name="generate_url")
+     */
+    public function generate_url()
+    {
+        exit($this->generateUrl(
+            'generate_url',
+            array('param' => 10),
+            UrlGeneratorInterface::ABSOLUTE_URL
+        ));
+    }
+    /**
+     * @Route("/download")
+     */
+    public function download()
+    {
+        $path = $this->getParameter('download_directory');
+        return $this->file($path . 'file.pdf');
+    }
+    /**
+     * @Route("/redirect-test")
+     */
+    public function redirectTest()
+    {
+        return $this->redirectToRoute('route_to_redirect', array('param' => 10));;
+    }
+    /**
+     * @Route("/url-to-redirect/{param?}", name="route_to_redirect")
+     */
+    public function methodToRedirect()
+    {
+        exit('Test redirection');
     }
 
     // BASIC CONTROLLERS
