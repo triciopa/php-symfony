@@ -10,6 +10,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use App\Services\GiftsService;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class DefaultController extends AbstractController
 {
@@ -22,7 +24,7 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="default")
      */
-    public function index(GiftsService $gifts): Response
+    public function index(GiftsService $gifts, Request $request, SessionInterface $session): Response
     {
         // $users = ['Carlos','Fede','Pia','Iván','Nacho'];
 
@@ -52,11 +54,21 @@ class DefaultController extends AbstractController
 
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
 
-        $cookie = new Cookie(
-            'cookie_name',
-            'cookie_value',
-            time() + (2 * 365 * 24 * 60 * 60) // expires after 2 years
-        );
+        // exit($request->cookies->get('PHPSESSID'));
+
+        $session->set('name', 'session value');
+        $session->remove('name'); // continues and renders
+        $session->clear(); //clear any session
+        if ($session->has('name')) {
+            echo $request->cookies->get('PHPSESSID') . '<br>';
+            exit($session->get('name'));
+        }
+
+        // $cookie = new Cookie(
+        //     'cookie_name',
+        //     'cookie_value',
+        //     time() + (2 * 365 * 24 * 60 * 60) // expires after 2 years
+        // );
 
         // CREATE COOKIE
         // $res = new Response();
@@ -64,12 +76,12 @@ class DefaultController extends AbstractController
         // $res->send();
 
         // ERASE COOKIE
-        $res = new Response();
-        $res->headers->clearCookie('cookie_name');
-        $res->send();
+        // $res = new Response();
+        // $res->headers->clearCookie('cookie_name');
+        // $res->send();
 
-        $this->addFlash('notice', 'Your changes were saved');
-        $this->addFlash('warning', 'This has "warning" class');
+        // $this->addFlash('notice', 'Your changes were saved');
+        // $this->addFlash('warning', 'This has "warning" class');
 
         return $this->render('default/index.html.twig', [
             'controller_name' => 'Test Page',
