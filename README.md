@@ -27,6 +27,7 @@ $ composer require maker
 $ composer require doctrine
 $ composer require orm
 $ composer require logger
+$ composer require symfony/mime
 ```
 
 ### DB - SQLite

@@ -12,6 +12,7 @@ use App\Services\GiftsService;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class DefaultController extends AbstractController
 {
@@ -107,6 +108,27 @@ class DefaultController extends AbstractController
             'users' => $users,
             'random_gift' => $gifts->gifts,
         ]);
+    }
+
+    /**
+     * @Route("/generate-url/{param?}", name="generate_url")
+     */
+    public function generate_url()
+    {
+        exit($this->generateUrl(
+            'generate_url',
+            array('param' => 10),
+            UrlGeneratorInterface::ABSOLUTE_URL
+        ));
+    }
+
+    /**
+     * @Route("/download")
+     */
+    public function download()
+    {
+        $path = $this->getParameter('download_directory');
+        return $this->file($path . 'file.pdf');
     }
 
     // ADVANCED ROUTES
