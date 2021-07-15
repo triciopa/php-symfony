@@ -51,3 +51,10 @@ $ bin/console doctrine:migrations:migrate
 ```s
 $ bin/console debug:container
 ```
+
+### Errors
+
+Empty cache
+```s
+$ bin/console cache:clear
+```
