@@ -15,6 +15,12 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class DefaultController extends AbstractController
 {
+    // BIND SERVICE in services.yaml
+    public function __construct($logger)
+    {
+        // use $logger service
+    }
+
     // OVERRIDE SERVICE ARRAY
     // public function __construct(GiftsService $gifts)
     // {
@@ -26,6 +32,7 @@ class DefaultController extends AbstractController
      */
     public function index(GiftsService $gifts, Request $request, SessionInterface $session): Response
     {
+        // DATABASE HANDLING
         // $users = ['Carlos','Fede','Pia','Iván','Nacho'];
 
         // $entityManager = $this->getDoctrine()->getManager();
@@ -47,15 +54,25 @@ class DefaultController extends AbstractController
         // $entityManager->persist($user4);
         // $entityManager->persist($user5);
 
-        // $entityManager->flush();
-
-        // bin/console make:migration
-        // bin/console doctrine:migrations:migrate
+        // $entityManager->flush();        
 
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
 
-        // exit($request->cookies->get('PHPSESSID'));
+        // EXEPTIONS
+        if (!$users) {
+            throw $this->createNotFoundException('The users do not exist');
+        };
 
+        // GET & POST METHOD
+        // exit($request->query->get('page', 'default'));  
+        // exit($request->server->get('HTTP_POST'));
+        // $request->isXmlHttpRequest();
+        // $request->request->get('page');
+        // $request->files->get('foo'); // foo is html element
+
+
+        // SESSIONS
+        // exit($request->cookies->get('PHPSESSID'));
         $session->set('name', 'session value');
         $session->remove('name'); // continues and renders
         $session->clear(); //clear any session
@@ -64,13 +81,14 @@ class DefaultController extends AbstractController
             exit($session->get('name'));
         }
 
-        // $cookie = new Cookie(
-        //     'cookie_name',
-        //     'cookie_value',
-        //     time() + (2 * 365 * 24 * 60 * 60) // expires after 2 years
-        // );
-
         // CREATE COOKIE
+        $cookie = new Cookie(
+            'cookie_name',
+            'cookie_value',
+            time() + (2 * 365 * 24 * 60 * 60) // expires after 2 years
+        );
+
+        // SET COOKIE
         // $res = new Response();
         // $res->headers->setCookie($cookie);
         // $res->send();
@@ -80,6 +98,7 @@ class DefaultController extends AbstractController
         // $res->headers->clearCookie('cookie_name');
         // $res->send();
 
+        // FLASHES
         // $this->addFlash('notice', 'Your changes were saved');
         // $this->addFlash('warning', 'This has "warning" class');
 
@@ -90,6 +109,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
+    // ADVANCED ROUTES
     /** 
      * @Route ("/blog/{page?}", name="blog_list", requirements={"page"="\d+"})
      * 
@@ -99,7 +119,6 @@ class DefaultController extends AbstractController
         // needs a number as parameter, with question mark it's optional
         return new Response('Optional parameters in url and requirements for this');
     }
-
     /**
      * @Route(
      *      "/articles/{_locale}/{year}/{slug}/{category}",
@@ -115,7 +134,6 @@ class DefaultController extends AbstractController
     {
         return new Response('An advanced route example');
     }
-
     /**
      * @Route({
      *      "nl": "/over-ons", 
@@ -129,7 +147,7 @@ class DefaultController extends AbstractController
         return new Response('Translated routes');
     }
 
-
+    // BASIC CONTROLLERS
     // /**
     //  * @Route("/default/{name}", name="default")
     //  */
