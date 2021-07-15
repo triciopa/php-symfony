@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use App\Services\GiftsService;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class DefaultController extends AbstractController
 {
@@ -50,6 +51,22 @@ class DefaultController extends AbstractController
         // bin/console doctrine:migrations:migrate
 
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+
+        $cookie = new Cookie(
+            'cookie_name',
+            'cookie_value',
+            time() + (2 * 365 * 24 * 60 * 60) // expires after 2 years
+        );
+
+        // CREATE COOKIE
+        // $res = new Response();
+        // $res->headers->setCookie($cookie);
+        // $res->send();
+
+        // ERASE COOKIE
+        $res = new Response();
+        $res->headers->clearCookie('cookie_name');
+        $res->send();
 
         $this->addFlash('notice', 'Your changes were saved');
         $this->addFlash('warning', 'This has "warning" class');
