@@ -2,6 +2,8 @@
 
 {% block title %}Hello DefaultController!{% endblock %}
 
+{% set otherusers = [{name: 'John'}, {name: 'Paul'}, {name: 'George'}] %}
+
 {% block stylesheets %}
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
@@ -12,7 +14,7 @@
 {% block body %}
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1>Hello {{ controller_name|upper }}! ✅</h1>
 
     This friendly message is coming from:
     <ul>
@@ -39,7 +41,22 @@
             {{ message }}
         </div>
     {% endfor %}
-    
+{% endfor %}
+
+{% for user in otherusers %} 
+    {% if user.name == 'George' %}
+        <p>{{user.name}}</p>
+    {% else %}
+    <p>No users where found</p>
+    {% endif %}
+{% endfor %}
+
+{{ include('includes/subview.html.twig', { users: 'users'}) }}
+
+{% for i in 1..10 %}
+<div class="{{ cycle(['even','odd'], i)}}">
+{{i}}
+</div>
 {% endfor %}
 
 {% endblock %}
